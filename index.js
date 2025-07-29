@@ -16,7 +16,7 @@ const port = 3000;
 
 // Middleware
 app.use(cors({
-  origin: 'https://react-assignment-frontend-pi.vercel.app/',
+  origin: 'https://react-assignment-frontend-pi.vercel.app',
   credentials: true
 }));
 app.use(express.json());
