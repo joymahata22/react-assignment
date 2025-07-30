@@ -26,22 +26,20 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-// Method to compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {
   try {
-    console.log('Comparing passwords...'); // Debug log
+    console.log('Comparing passwords...');
     const isMatch = await bcrypt.compare(candidatePassword, this.password);
-    console.log('Password match:', isMatch ? 'Yes' : 'No'); // Debug log
+    console.log('Password match:', isMatch ? 'Yes' : 'No'); 
     return isMatch;
   } catch (error) {
-    console.error('Error comparing passwords:', error); // Debug log
+    console.error('Error comparing passwords:', error); 
     return false;
   }
 };

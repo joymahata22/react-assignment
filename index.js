@@ -5,7 +5,6 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
 
-// Verify environment variables
 if (!process.env.JWT_SECRET) {
   console.error('JWT_SECRET is not defined in environment variables');
   process.exit(1);
@@ -14,31 +13,25 @@ if (!process.env.JWT_SECRET) {
 const app = express();
 const port = 3000;
 
-// Middleware
 app.use(cors({
   origin: 'https://react-assignment-frontend-pi.vercel.app',
   credentials: true
 }));
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api', sessionRoutes);
 
-// Basic route
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
-// Connect to database
 connectDB();
 
-// Error handling middleware
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error('Error details:', err);
   
-  // Handle specific types of errors
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       status: 'error',
@@ -53,7 +46,6 @@ app.use((err, req, res, next) => {
     });
   }
 
-  // Default error
   res.status(err.status || 500).json({
     status: 'error',
     message: err.message || 'Something went wrong!',
